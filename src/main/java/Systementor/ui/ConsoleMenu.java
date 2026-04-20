@@ -36,6 +36,7 @@ public class ConsoleMenu {
         System.out.println("Enter password");
         String password = scanner.nextLine();
 
+
         boolean success = service.register(username,password);
         if (success) {
             System.out.println("User registered successfully");

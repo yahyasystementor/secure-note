@@ -1,6 +1,7 @@
 package Systementor.service;
 
 import Systementor.repository.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class AuthService {
     private final UserRepository userRepository = new UserRepository();
@@ -13,7 +14,10 @@ public class AuthService {
             System.out.println("Password is null or empty");
             return false;
         }
-        return userRepository.saveUser(username,password, "USER");
+
+        String hashedPassword = BCrypt.hashpw(password,BCrypt.gensalt());
+
+        return userRepository.saveUser(username,hashedPassword, "USER");
 
     }
 
