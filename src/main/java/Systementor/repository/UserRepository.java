@@ -18,6 +18,23 @@ public class UserRepository {
 
 
 
+    public boolean existsByUsername(String username) {
+        String sql = "SELECT id FROM users WHERE username = ?";
+
+        try(Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
 
 
 
