@@ -1,5 +1,6 @@
 package Systementor.service;
 
+import Systementor.model.User;
 import Systementor.repository.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -19,6 +20,28 @@ public class AuthService {
 
         return userRepository.saveUser(username,hashedPassword, "USER");
 
+    }
+
+
+    public User login(String username, String password) {
+        if(username == null || username.isBlank()){
+            System.out.println("Username is null or empty");
+            return null;
+        }
+
+        User user = userRepository.findByUsername(username);
+
+        if(user == null) {
+            System.out.println("User not found");
+            return null;
+        }
+
+        boolean match = BCrypt.checkpw(password, user.getPassword());
+        if (match){
+            return user;
+        }
+        System.out.println("Wrong username or password");
+        return null;
     }
 
 

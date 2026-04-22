@@ -1,5 +1,6 @@
 package Systementor.ui;
 
+import Systementor.model.User;
 import Systementor.service.AuthService;
 
 import java.util.Scanner;
@@ -16,13 +17,15 @@ public class ConsoleMenu {
         while (running) {
             System.out.println("\n--- Secure note----");
             System.out.println("1. Register new user");
-            System.out.println("2. Exit");
+            System.out.println("2. Login user");
+            System.out.println("3. Exit");
 
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1" -> register();
-                case "2" -> running = false;
+                case "2" -> login();
+                case "3" -> running = false;
                 default -> System.out.println("Invalid choice");
 
             }
@@ -31,7 +34,7 @@ public class ConsoleMenu {
 
     private void register() {
         System.out.println("Enter username");
-        String username = scanner.nextLine();
+        String username = scanner.nextLine().trim();
 
         System.out.println("Enter password");
         String password = scanner.nextLine();
@@ -46,7 +49,23 @@ public class ConsoleMenu {
 
     }
 
+    private void login() {
+        System.out.println("Enter username");
+        String username = scanner.nextLine().trim();
 
+        System.out.println("Enter password");
+        String password = scanner.nextLine().trim();
 
+        User user = service.login(username, password);
+
+        if (user != null) {
+            System.out.println(user.getPassword());
+            System.out.println(user.getRole());
+            System.out.println(user.getId());
+            System.out.println(user.getUsername() + " successfully logged in");
+        } else {
+            System.out.println("Login failed");
+        }
+    }
 
 }
